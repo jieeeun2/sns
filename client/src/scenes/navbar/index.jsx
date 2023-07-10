@@ -21,15 +21,17 @@ import {
   Close
 } from "@mui/icons-material"
 import { useDispatch, useSelector } from "react-redux"
-import { setMode, setLogout } from "state"
+import { setMode, setLogout, setSearch } from "state"
 import { useNavigate } from "react-router-dom"
 import FlexBetween from "components/FlexBetween"
 
-const Navbar = () => {
+const Navbar = ({ userId }) => {
   const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false)
+  const [searchText, setSearchText] = useState("")
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const user = useSelector(state => state.user)
+  const token = useSelector(state => state.token)
   const isNoneMobileScreens = useMediaQuery("(min-width: 1000px)")
 
   const theme = useTheme()
@@ -40,6 +42,20 @@ const Navbar = () => {
   const alt = theme.palette.background.alt
 
   const fullName = `${user?.firstName} ${user?.lastName}`
+
+  const searchUsers = async () => {
+    const response = await fetch(`http://localhost:3001/users/${userId}/searchUsers`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ searchText: searchText })
+    })
+    const userList = await response.json()
+    console.log('userList', userList)
+    dispatch(setSearch())
+  }
 
   return (
     <FlexBetween padding="1rem 6%" backgroundColor={alt}>
@@ -65,9 +81,9 @@ const Navbar = () => {
             gap="3rem" 
             padding="0.1rem 1.5rem"
           >
-            <InputBase placeholder="Search..."/>
-            <IconButton>
-              <Search/>
+            <InputBase placeholder="Search..." onChange={(e) => setSearchText(e.target.value)} />
+            <IconButton onClick={searchUsers}>
+              <Search />
             </IconButton>
           </FlexBetween>
         )}

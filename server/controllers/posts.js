@@ -59,14 +59,14 @@ export const likePost = async (req, res) => { //이부분 어려워ㅠㅠ
     } else {
       post.likes.set(userId, true) 
     }
-
-    const updatePost = await Post.findByIdAndUpdate(
+    
+    const updatedPost = await Post.findByIdAndUpdate(
       id,
       { likes: post.likes },
       { new: true }
     )
 
-    res.status(200).json()
+    res.status(200).json(updatedPost)
   } catch (err) {
     res.status(404).send({ message: err.message })
   }

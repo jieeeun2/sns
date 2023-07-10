@@ -2,11 +2,10 @@ import User from '../models/User.js'
 
 /* read */
 export const getUser = async (req, res) => {
-  console.log('req.params', req.params)
   try {
     const { id } = req.params
     const user = await User.findById(id)
-    console.log('user', user)
+    
     res.status(200).json(user)
   } catch (err) {
     res.status(400).json({ error: err.message })
@@ -26,7 +25,22 @@ export const getUserFriends = async (req, res) => {
         return { _id, firstName, lastName, occupation, location, picturePath }
       }
     )
+    //console.log("formattedFriends: ", formattedFriends)
     res.status(200).json(formattedFriends)
+  } catch (err) {
+    res.status(400).json({ error: err.message })
+  }
+}
+
+export const getUsers = async (req, res) => {
+  try {
+    const { id } = req.params
+    const { searchText } = req.body
+    // const users = await User.find({
+    //   $or: [{ firstName: /searchText/ }, { lastName: /searchText/ }]
+    // })
+    const users = await User.find() //검색어 대로 나오게 하고싶은데 like하려면 // 사이에 넣어주면 된다던데 안됨
+    res.status(200).json(users)
   } catch (err) {
     res.status(400).json({ error: err.message })
   }
