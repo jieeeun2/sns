@@ -21,11 +21,11 @@ import {
   Close
 } from "@mui/icons-material"
 import { useDispatch, useSelector } from "react-redux"
-import { setMode, setLogout, setSearch } from "state"
+import { setMode, setLogout } from "state"
 import { useNavigate } from "react-router-dom"
 import FlexBetween from "components/FlexBetween"
 
-const Navbar = ({ userId }) => {
+const Navbar = ({ handleSetSearch }) => {
   const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false)
   const [searchText, setSearchText] = useState("")
   const dispatch = useDispatch()
@@ -43,18 +43,17 @@ const Navbar = ({ userId }) => {
 
   const fullName = `${user?.firstName} ${user?.lastName}`
 
-  const searchUsers = async () => {
-    const response = await fetch(`http://localhost:3001/users/${userId}/searchUsers`, {
-      method: 'POST',
-      headers: {
+  const handleSearch = async () => {
+    const response = await fetch(`http://localhost:3001/users/search`, {
+      method: "POST",
+      headers: { 
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ searchText: searchText })
+      body: JSON.stringify({searchText: searchText})
     })
-    const userList = await response.json()
-    console.log('userList', userList)
-    dispatch(setSearch())
+    const searchResult = await response.json()
+    handleSetSearch(true, searchResult)
   }
 
   return (
@@ -64,7 +63,10 @@ const Navbar = ({ userId }) => {
           fontWeight="bold" 
           fontSize="clamp(1rem, 2rem, 2.25rem)" 
           color="primary"
-          onClick={() => navigate("/home")}
+          onClick={() => {
+            navigate("/home")
+            navigate(0)
+          }}
           sx={{
             "&:hover": {
               color: primaryLight,
@@ -81,8 +83,8 @@ const Navbar = ({ userId }) => {
             gap="3rem" 
             padding="0.1rem 1.5rem"
           >
-            <InputBase placeholder="Search..." onChange={(e) => setSearchText(e.target.value)} />
-            <IconButton onClick={searchUsers}>
+            <InputBase placeholder="Search..." onChange={(e) => setSearchText(e.target.value)}/>
+            <IconButton onClick={handleSearch}>
               <Search />
             </IconButton>
           </FlexBetween>
