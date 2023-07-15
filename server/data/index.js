@@ -159,9 +159,9 @@ export const posts = [
       [userIds[4], true],
     ]),
     comments: [
-      "random comment",
-      "another random comment",
-      "yet another random comment",
+      {commentWriterId: userIds[0], text: "random comment"},
+      {commentWriterId: userIds[0], text: "another random comment"},
+      {commentWriterId: userIds[4], text: "yet another random comment"},
     ],
   },
   {
@@ -181,10 +181,10 @@ export const posts = [
       [userIds[2], true],
     ]),
     comments: [
-      "one more random comment",
-      "and another random comment",
-      "no more random comments",
-      "I lied, one more random comment",
+      {commentWriterId: userIds[0], text: "one more random comment"},
+      {commentWriterId: userIds[4], text: "and another random comment"},
+      {commentWriterId: userIds[4], text: "no more random comments"},
+      {commentWriterId: userIds[4], text: "I lied, one more random comment"},
     ],
   },
   {
@@ -204,11 +204,11 @@ export const posts = [
       [userIds[5], true],
     ]),
     comments: [
-      "one more random comment",
-      "I lied, one more random comment",
-      "I lied again, one more random comment",
-      "Why am I doing this?",
-      "I'm bored",
+      {commentWriterId: userIds[0], text: "one more random comment"},
+      {commentWriterId: userIds[3], text: "I lied, one more random comment"},
+      {commentWriterId: userIds[5], text: "I lied again, one more random comment"},
+      {commentWriterId: userIds[3], text: "Why am I doing this?"},
+      {commentWriterId: userIds[3], text: "I'm bored"},
     ],
   },
   {
@@ -227,12 +227,12 @@ export const posts = [
       [userIds[3], true],
     ]),
     comments: [
-      "I lied again, one more random comment",
-      "Why am I doing this?",
-      "I'm bored",
-      "I'm still bored",
-      "All I want to do is play video games",
-      "I'm going to play video games",
+      {commentWriterId: userIds[0], text: "I lied again, one more random comment"},
+      {commentWriterId: userIds[1], text: "Why am I doing this?"},
+      {commentWriterId: userIds[2], text: "I'm bored"},
+      {commentWriterId: userIds[3], text: "I'm still bored"},
+      {commentWriterId: userIds[4], text: "All I want to do is play video games"},
+      {commentWriterId: userIds[5], text: "I'm going to play video games"},
     ],
   },
   {
@@ -252,11 +252,11 @@ export const posts = [
       [userIds[7], true],
     ]),
     comments: [
-      "I lied again, one more random comment",
-      "Why am I doing this?",
-      "Man I'm bored",
-      "What should I do?",
-      "I'm going to play video games",
+      {commentWriterId: userIds[3], text: "I lied again, one more random comment"},
+      {commentWriterId: userIds[3], text: "Why am I doing this?"},
+      {commentWriterId: userIds[5], text: "Man I'm bored"},
+      {commentWriterId: userIds[6], text: "What should I do?"},
+      {commentWriterId: userIds[0], text: "I'm going to play video games"},
     ],
   },
   {
@@ -275,11 +275,11 @@ export const posts = [
     ]),
 
     comments: [
-      "Can I play video games now?",
-      "No let's actually study",
-      "Never mind, I'm going to play video games",
-      "Stop it.",
-      "Michael, stop it.",
+      {commentWriterId: userIds[1], text: "Can I play video games now?"},
+      {commentWriterId: userIds[1], text: "No let's actually study"},
+      {commentWriterId: userIds[3], text: "Never mind, I'm going to play video games"},
+      {commentWriterId: userIds[4], text: "Stop it."},
+      {commentWriterId: userIds[3], text: "Michael, stop it."},
     ],
   },
 ];

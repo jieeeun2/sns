@@ -1,35 +1,38 @@
-import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { setPosts } from "state"
-import PostWidget from "./PostWidget"
-import { LinkedCameraSharp } from '@mui/icons-material'
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setPosts } from "state";
+import PostWidget from "./PostWidget";
+import { LinkedCameraSharp } from "@mui/icons-material";
 
 const PostsWidget = ({ userId, isProfile = false }) => {
-  const dispatch = useDispatch()
-  const posts = useSelector(state => state.posts)
-  const token = useSelector(state => state.token)
+  const dispatch = useDispatch();
+  const posts = useSelector((state) => state.posts);
+  const token = useSelector((state) => state.token);
 
   const getPosts = async () => {
     const response = await fetch("http://localhost:3001/posts", {
       method: "GET",
-      headers: { Authorization: `Bearer ${token}` }
-    })
-    const data = await response.json()
-    dispatch(setPosts({ posts: data }))
-  }
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const data = await response.json();
+    dispatch(setPosts({ posts: data }));
+  };
   const getUserPosts = async () => {
-    const response = await fetch(`http://localhost:3001/posts/${userId}/posts`, {
-      method: "GET",
-      headers: { Authorization: `Bearer ${token}` }
-    })
-    const data = await response.json()
-    dispatch(setPosts({ posts: data }))
-  }
+    const response = await fetch(
+      `http://localhost:3001/posts/${userId}/posts`,
+      {
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    const data = await response.json();
+    dispatch(setPosts({ posts: data }));
+  };
 
   useEffect(() => {
-    if (isProfile) getUserPosts() 
-    else getPosts()
-  }, [])
+    if (isProfile) getUserPosts(); //profilePage에서 넘어온 거는 isProfile이 true
+    else getPosts();
+  }, []);
 
   return (
     <>
@@ -44,9 +47,9 @@ const PostsWidget = ({ userId, isProfile = false }) => {
           picturePath,
           userPicturePath,
           likes,
-          comments
+          comments,
         }) => (
-          <PostWidget 
+          <PostWidget
             key={_id}
             postId={_id}
             postUserId={userId}
@@ -61,7 +64,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
         )
       )}
     </>
-  )
-}
+  );
+};
 
-export default PostsWidget
+export default PostsWidget;

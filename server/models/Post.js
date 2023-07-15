@@ -1,5 +1,19 @@
 import mongoose from "mongoose"
 
+const subSchema = mongoose.Schema({
+  commentWriterId: {
+    type: String,
+    required: true
+  },
+  text: {
+    type: String,
+    required: true
+  },
+  isDelete: {
+    type: Boolean
+  }
+}, { timestamps: true });
+
 const postSchema = mongoose.Schema(
   {
     userId: {
@@ -23,7 +37,7 @@ const postSchema = mongoose.Schema(
       of: Boolean
     },
     comments: {
-      type: Array,
+      type: [subSchema],
       default: []
     }
   },

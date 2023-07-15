@@ -100,7 +100,7 @@ const Form = () => {
   }
 
   const handleFormSubmit = async (values, onSubmitProps) => { 
-    console.log("values: ", values, 'onSubmitProps', onSubmitProps)
+    //console.log("values: ", values, 'onSubmitProps', onSubmitProps)
     if (isLogin) await login(values, onSubmitProps)
     if (isRegister) await register(values, onSubmitProps)
   }
