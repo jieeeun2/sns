@@ -30,7 +30,7 @@ export const createPost = async (req, res) => {
 export const getFeedPosts = async (req, res) => {
   try {
     const post = await Post.find();
-    console.log(post)
+    //console.log(post)
     res.status(200).json(post);
   } catch (err) {
     res.status(404).send({ message: err.message });
@@ -39,10 +39,10 @@ export const getFeedPosts = async (req, res) => {
 
 export const getUserPosts = async (req, res) => {
   try {
-    console.log(req.params)
+    //console.log(req.params)
     const { userId } = req.params;
     const posts = await Post.find({ userId });
-    console.log(posts)
+    //console.log(posts)
     res.status(200).json(posts);
   } catch (err) {
     res.status(404).send({ message: err.message });
@@ -103,23 +103,20 @@ export const comments = async (req, res) => {
 /* delete */
 export const deleteComments = async (req, res) => {
   try {
-    console.log(req.params)
-    console.log(req.body)
+    //console.log(req.params)
+    // console.log(req.body)
     const { postId, commentId } = req.params
     //로그인 된 유저꺼 본인꺼만 지울수있게 뭔가 해줘야하는디
+    const userId = req.body
 
     const post = await Post.findById(postId)
-    console.log(post.comments._id , commentId)
-    const test = await Post.find({post.comments._id : {$in: commentId}})
-    //ost.comments.delete(commentId)
-
-    // const updatedPost = await Post.findByIdAndDelete(
-    //   postId,
-    //   { comments: post.comments },
-    //   { new: true }
-    // )
+    post.comments = post.comments.filter(comment => comment.id !== commentId && comment.commentWriterId === userId)
+    console.log(post)
+  
+    const updatedPost = await post.save()
+    console.log(updatedPost)
     
-    // res.status(200).json(updatedPost)
+    res.status(200).json(updatedPost)
   } catch (err) {
     res.status(404).send({ message: err.message });
   }

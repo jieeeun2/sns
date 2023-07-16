@@ -21,4 +21,5 @@ router.patch("/:postId/comments", verifyToken, comments);
 /* delete */
 router.delete("/:postId/:commentId/deleteComments", verifyToken, deleteComments)
 
+
 export default router;

@@ -82,6 +82,7 @@ const PostWidget = ({
       })
     })
     const updatedPost = await response.json()
+    console.log(updatedPost)
     dispatch(setPost({ post: updatedPost }));
   }
 
