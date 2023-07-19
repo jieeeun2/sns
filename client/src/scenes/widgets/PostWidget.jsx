@@ -50,6 +50,7 @@ const PostWidget = ({
   };
 
   const patchComments = async () => {
+    console.log("commnet", comment)
     const response = await fetch(`http://localhost:3001/posts/${postId}/comments`, {
       method: "PATCH",
       headers: {
@@ -82,7 +83,7 @@ const PostWidget = ({
       })
     })
     const updatedPost = await response.json()
-    console.log(updatedPost)
+    //console.log(updatedPost)
     dispatch(setPost({ post: updatedPost }));
   }
 
@@ -156,18 +157,24 @@ const PostWidget = ({
             </Button>
           </Box>
           <Box>
-            {comments.map((comment, i) => (
-              <Box key={`${name}-${i}`}>
-                <FlexBetween>
-                  <Typography sx={{ color: main, m: "0.5rem 0", pl: "1rem" }}>
-                    {comment.text}
-                  </Typography>
-                  <IconButton onClick={() => deleteComments(comment._id)}>
-                    <BackspaceOutlinedIcon sx={{ color: main }}/>
-                  </IconButton>
-                </FlexBetween>
-                <Divider />
-              </Box>
+            {comments.slice(0).reverse().map((comment, i) => (
+              <>
+              {comment.isDelete === false &&
+                <Box key={`${name}-${i}`}>
+                  <FlexBetween>
+                    <Typography sx={{ color: main, m: "0.5rem 0", pl: "1rem" }}>
+                      {comment.text}
+                    </Typography>
+                    {/* {comment.commentWriterId === loggedInUserId && */}
+                      <IconButton onClick={() => deleteComments(comment._id)}>
+                        <BackspaceOutlinedIcon sx={{ color: main }}/>
+                      </IconButton>
+                    {/* } */}
+                  </FlexBetween>
+                  <Divider />
+                </Box>
+              }
+              </>
             ))}
           </Box>
         </Box>

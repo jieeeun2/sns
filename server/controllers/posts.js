@@ -84,7 +84,7 @@ export const comments = async (req, res) => {
     const { userId, comment } = req.body
 
     const post = await Post.findById(postId)
-    post.comments.push({ commentWriterId: userId, text: comment })
+    post.comments.push({ commentWriterId: userId, text: comment, isDelete: false })
 
     const updatedPost = await Post.findByIdAndUpdate(
       postId,
@@ -103,18 +103,24 @@ export const comments = async (req, res) => {
 /* delete */
 export const deleteComments = async (req, res) => {
   try {
-    //console.log(req.params)
+    console.log(req.body.userId)
+    // console.log(req.params)
     // console.log(req.body)
     const { postId, commentId } = req.params
     //로그인 된 유저꺼 본인꺼만 지울수있게 뭔가 해줘야하는디
-    const userId = req.body
+    const userId = req.body.userId
 
     const post = await Post.findById(postId)
-    post.comments = post.comments.filter(comment => comment.id !== commentId && comment.commentWriterId === userId)
-    console.log(post)
+    post.comments = post?.comments?.filter((comment) => {
+      console.log(comment.commentWriterId, userId)
+      if(comment.commentWriterId !== userId) return
+
+      return comment.id !== commentId
+    })
+    console.log('post임', post)
   
     const updatedPost = await post.save()
-    console.log(updatedPost)
+    console.log('updatedPost임', updatedPost)
     
     res.status(200).json(updatedPost)
   } catch (err) {

@@ -10,7 +10,8 @@ const subSchema = mongoose.Schema({
     required: true
   },
   isDelete: {
-    type: Boolean
+    type: Boolean,
+    default: false
   }
 }, { timestamps: true });
 
@@ -32,6 +33,9 @@ const postSchema = mongoose.Schema(
     description: String,
     picturePath: String,
     userPicturePath: String,
+    views: {
+      type: Number
+    },
     likes: {
       type: Map,
       of: Boolean
