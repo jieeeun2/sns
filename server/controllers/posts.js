@@ -19,7 +19,7 @@ export const createPost = async (req, res) => {
     });
     await newPost.save();
 
-    const post = await User.find();
+    const post = await Post.find();
     res.status(201).json(post);
   } catch (err) {
     res.status(409).send({ message: err.message });
@@ -30,7 +30,7 @@ export const createPost = async (req, res) => {
 export const getFeedPosts = async (req, res) => {
   try {
     const post = await Post.find();
-    //console.log(post)
+    console.log(post)
     res.status(200).json(post);
   } catch (err) {
     res.status(404).send({ message: err.message });
@@ -103,25 +103,22 @@ export const comments = async (req, res) => {
 /* delete */
 export const deleteComments = async (req, res) => {
   try {
-    console.log(req.body.userId)
     // console.log(req.params)
     // console.log(req.body)
     const { postId, commentId } = req.params
-    //로그인 된 유저꺼 본인꺼만 지울수있게 뭔가 해줘야하는디
     const userId = req.body.userId
 
     const post = await Post.findById(postId)
-    post.comments = post?.comments?.filter((comment) => {
-      console.log(comment.commentWriterId, userId)
-      if(comment.commentWriterId !== userId) return
 
-      return comment.id !== commentId
+    /* 로그인한 유저 본인꺼만 지울수 있도록 프론트에서도 처리해주었지만 
+    혹시나 프론트가 잘못보여질경우가 있을수 있으니깐 
+    백엔드에서는 로그인한 유저 본인이 쓴 댓글 이외의 것을 삭제할수 없도록 처리해줌 */
+    post.comments = post?.comments?.filter(comment => { 
+      if(comment.commentWriterId !== userId) return comment
+      return comment.id !== commentId 
     })
-    console.log('post임', post)
-  
+
     const updatedPost = await post.save()
-    console.log('updatedPost임', updatedPost)
-    
     res.status(200).json(updatedPost)
   } catch (err) {
     res.status(404).send({ message: err.message });

@@ -24,6 +24,7 @@ const PostWidget = ({
   likes,
   comments,
 }) => {
+  console.log(postId, postUserId, name, location, description, picturePath, userPicturePath, likes, comments)
   const [comment, setComment] = useState('')
   const [isComments, setIsComments] = useState(false);
   const dispatch = useDispatch();
@@ -160,16 +161,16 @@ const PostWidget = ({
             {comments.slice(0).reverse().map((comment, i) => (
               <>
               {comment.isDelete === false &&
-                <Box key={`${name}-${i}`}>
+                <Box key={`${postId}-${i}`}>
                   <FlexBetween>
                     <Typography sx={{ color: main, m: "0.5rem 0", pl: "1rem" }}>
                       {comment.text}
                     </Typography>
-                    {/* {comment.commentWriterId === loggedInUserId && */}
+                    {comment.commentWriterId === loggedInUserId &&
                       <IconButton onClick={() => deleteComments(comment._id)}>
                         <BackspaceOutlinedIcon sx={{ color: main }}/>
                       </IconButton>
-                    {/* } */}
+                    } 
                   </FlexBetween>
                   <Divider />
                 </Box>

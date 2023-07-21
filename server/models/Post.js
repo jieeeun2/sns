@@ -38,7 +38,9 @@ const postSchema = mongoose.Schema(
     },
     likes: {
       type: Map,
-      of: Boolean
+      of: Boolean,
+      required: true,
+      default: false
     },
     comments: {
       type: [subSchema],
