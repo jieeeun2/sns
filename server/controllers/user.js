@@ -1,6 +1,10 @@
 import User from "../models/User.js";
 
-/* read */
+/* read - getUser, getUserFriends, getUsers */
+
+/* 해당 사용자 정보 내보내기
+  req.params에 id
+*/
 export const getUser = async (req, res) => {
   try {
     const { id } = req.params;
@@ -12,13 +16,16 @@ export const getUser = async (req, res) => {
   }
 };
 
+/* 사용자 친구 정보 내보내기
+  req.params에 id
+*/
 export const getUserFriends = async (req, res) => {
   try {
     const { id } = req.params;
     const user = await User.findById(id);
 
+    //*****비동기를 병렬처리 
     const friends = await Promise.all(
-      //*****
       user.friends.map((id) => User.findById(id))
     );
     const formattedFriends = friends.map(
@@ -33,6 +40,9 @@ export const getUserFriends = async (req, res) => {
   }
 };
 
+/* 해당 사용자 목록 내보내기
+  req.body에 searchText
+*/
 export const getUsers = async (req, res) => {
   // console.log(req.body)
   const searchText = req.body.searchText;
@@ -50,14 +60,19 @@ export const getUsers = async (req, res) => {
   }
 };
 
-/* update */
+
+/* update - addRemoveFriend */
+
+/* 친구 추가 삭제 
+  req.params에 id, friendId
+*/
 export const addRemoveFriend = async (req, res) => {
-  console.log(req.params);
+  //console.log(req.params);
   try {
     const { id, friendId } = req.params;
     const user = await User.findById(id);
     const friend = await User.findById(friendId);
-    console.log(user, friend);
+    //console.log(user, friend);
 
     if (user.friends.includes(friendId)) {
       /* 선택한 친구가 친구목록에 있다면, 친구목록에서 선택한 친구를 지워주기 */
@@ -70,8 +85,8 @@ export const addRemoveFriend = async (req, res) => {
     await user.save();
     await friend.save();
 
+    //*****비동기를 병렬처리 
     const friends = await Promise.all(
-      //*****
       user.friends.map((id) => User.findById(id))
     );
     const formattedFriends = friends.map(

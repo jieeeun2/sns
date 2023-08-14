@@ -1,7 +1,11 @@
 import Post from "../models/Post.js";
 import User from "../models/User.js";
 
-/* create */
+/* create -createPost */
+
+/* 새로운 Post 생성 
+  req.body에 userId, description, picturePath
+*/
 export const createPost = async (req, res) => {
   try {
     const { userId, description, picturePath } = req.body;

@@ -12,7 +12,7 @@ export const register = async (req, res) => {
       email,
       password,
       picturePath,
-      friends, //프론트에서 얘는 안넘어옴
+      friends, //프론트에서 얘는 안넘어옴 
       location,
       occupation
     } = req.body
@@ -53,7 +53,7 @@ export const login = async (req, res) => {
     if (!isMatch) return res.status(400).json({ msg: "Invalid credentials. " })
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET)
-    delete user.password
+    delete user.password //?? 이거 뭐하는거지
     // console.log('token, user: ', token, {token}, user, {user})
     res.status(200).json({ token, user })
   } catch (err) {

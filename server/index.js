@@ -45,6 +45,7 @@ const upload = multer({ storage })
 
 /* routes with files */
 app.post("/auth/register", upload.single("picture"), register)
+//app.post("/auth/register", upload.single("picture"), verifyToken, register) 이렇게 왜 안해주는거지
 app.post("/posts", verifyToken, upload.single("picture"), createPost)
 
 /* routes */
